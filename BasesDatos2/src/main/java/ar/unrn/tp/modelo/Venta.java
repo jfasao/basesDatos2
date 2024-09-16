@@ -6,6 +6,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 /**
 *
 * Materia: Bases de Datos 2
@@ -14,12 +23,29 @@ import java.util.List;
 * @version 1.0
 *
 */
-
+@Entity
 public class Venta {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private LocalDateTime fechaHora;
+	
+	@ManyToOne
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+	
+	@ManyToMany
+	@JoinTable(
+	        name = "venta_producto", // Nombre de la tabla intermedia
+	        joinColumns = @JoinColumn(name = "venta_id"), // Clave foránea hacia venta
+	        inverseJoinColumns = @JoinColumn(name = "producto_id") // Clave foránea hacia  producto
+	    )
 	private List<Producto> productos = new ArrayList<Producto>();
+	
+	@ManyToOne
+	@JoinColumn(name = "tarjetaPago_id")
 	private TarjetaCredito tarjetaPago;
 	private BigDecimal montoTotal;
 	private BigDecimal montoTotalConDescuentos;

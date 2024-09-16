@@ -3,6 +3,10 @@ package ar.unrn.tp.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 
 /**
 *
@@ -13,8 +17,11 @@ import java.time.LocalDate;
 *
 */
 
+@Entity
 public class DescuentoBanco extends Descuento {
 
+	@ManyToOne
+	@JoinColumn(name="banco_id")
 	private Banco banco;
 	
 	//cosntructors

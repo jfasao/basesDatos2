@@ -3,6 +3,11 @@ package ar.unrn.tp.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 /**
 *
 * Materia: Bases de Datos 2
@@ -11,8 +16,12 @@ import java.time.LocalDate;
 * @version 1.0
 *
 */
-
+@Entity
 public class Precio {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private LocalDate fechaInicio;
 	private LocalDate fechaFin;
@@ -71,6 +80,16 @@ public class Precio {
 
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
+	}
+
+
+	protected Long getId() {
+		return id;
+	}
+
+
+	protected void setId(Long id) {
+		this.id = id;
 	}
 	
 	

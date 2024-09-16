@@ -6,6 +6,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 /**
  * 
  * Materia: Bases de Datos 2
@@ -15,13 +22,19 @@ import java.util.Map;
  *
  */
 
+@Entity
 public class Cliente {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String nombre;
 	private String apellido;
 	private String email;
 	private String dni;
 	
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private List<TarjetaCredito> tarjetasCredito = new ArrayList<TarjetaCredito> ();
 	
 	
@@ -105,6 +118,15 @@ public class Cliente {
 		this.tarjetasCredito = tarjetasCredito;
 	}
 
+	protected Long getId() {
+		return id;
+	}
+
+	protected void setId(Long id) {
+		this.id = id;
+	}
+
+	
 	
 	
 	

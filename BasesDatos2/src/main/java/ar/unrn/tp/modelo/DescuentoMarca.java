@@ -1,7 +1,9 @@
 package ar.unrn.tp.modelo;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 /**
 *
 * Materia: Bases de Datos 2
@@ -10,9 +12,11 @@ import java.time.LocalDate;
 * @version 1.0
 *
 */
-
+@Entity
 public class DescuentoMarca extends Descuento {
 	
+	@ManyToOne
+	@JoinColumn(name="marca_id")
 	private Marca marca;
 	
 	//constructors

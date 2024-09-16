@@ -3,11 +3,25 @@ package ar.unrn.tp.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+
+@Entity
 public class TipoTarjeta {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String descripcion;
+	
+	@ManyToMany(mappedBy = "tiposTarjeta")
 	private List<TarjetaCredito> tarjetas = new ArrayList<TarjetaCredito>();
-	private List<Banco> bancos = new ArrayList<Banco>();
+	
 
 	public TipoTarjeta() {
 		// TODO Auto-generated constructor stub
@@ -38,12 +52,16 @@ public class TipoTarjeta {
 		this.tarjetas = tarjetas;
 	}
 
-	public List<Banco> getBancos() {
-		return bancos;
+
+
+	protected Long getId() {
+		return id;
 	}
 
-	public void setBancos(List<Banco> bancos) {
-		this.bancos = bancos;
+
+
+	protected void setId(Long id) {
+		this.id = id;
 	}
 
 	
