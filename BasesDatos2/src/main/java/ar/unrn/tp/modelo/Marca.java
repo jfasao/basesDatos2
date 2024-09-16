@@ -1,5 +1,8 @@
 package ar.unrn.tp.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
 *
 * Materia: Bases de Datos 2
@@ -12,6 +15,8 @@ public class Marca {
 
 	private String descripcion;
 	private String nacionalidad;
+	private DescuentoMarca descuento;
+	private List<DescuentoMarca> Descuentos= new ArrayList<DescuentoMarca>();
 	
 	//constructors
 	public Marca() {
@@ -25,21 +30,38 @@ public class Marca {
 	}
 
 	//getters and setters
-	public String getDescripcion() {
+	protected String getDescripcion() {
 		return descripcion;
 	}
 
-	public void setDescripcion(String descripcion) {
+	protected void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
-	public String getNacionalidad() {
+	protected String getNacionalidad() {
 		return nacionalidad;
 	}
 
-	public void setNacionalidad(String nacionalidad) {
+	protected void setNacionalidad(String nacionalidad) {
 		this.nacionalidad = nacionalidad;
 	}
+
+	protected DescuentoMarca getDescuento() {
+		return descuento;
+	}
+
+	protected void setDescuento(DescuentoMarca descuento) {
+		this.descuento = descuento;
+	}
+
+	protected List<DescuentoMarca> getDescuentos() {
+		return Descuentos;
+	}
+
+	protected void setDescuentos(List<DescuentoMarca> historialDescuentos) {
+		this.Descuentos = historialDescuentos;
+	}
+	
 	
 	
 	

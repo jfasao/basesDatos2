@@ -27,11 +27,11 @@ public class Categoria {
 
 
 	//getters and setters
-	public String getDescripcion() {
+	private String getDescripcion() {
 			return descripcion;
 		}
 		
-	public void setDescripcion(String descripcion) {
+	private void setDescripcion(String descripcion) {
 			this.descripcion = descripcion;
 		}
 	

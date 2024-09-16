@@ -1,6 +1,8 @@
 package ar.unrn.tp.modelo;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 
 /**
 *
@@ -13,10 +15,25 @@ import java.util.Date;
 
 public class Descuento {
 	
-	private Date fechaInicio;
-	private Date fechaFin;
-	private Integer porcentajeDescuento;
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
+	private int porcentajeDescuento;
 	
+	
+	// verificar si el descuento es vigente
+	public boolean descuentoVigente(LocalDate fecha) {
+		
+		 return fechaInicio != null && fechaFin != null &&
+	               !fecha.isBefore(fechaInicio) && !fecha.isAfter(fechaFin);	
+		
+	}
+	
+	  // Verificar si dos descuentos se solapan
+    public boolean descuentoSolapado(Descuento otroDescuento) {
+        return (fechaInicio != null && fechaFin != null &&
+                otroDescuento.fechaInicio != null && otroDescuento.fechaFin != null) &&
+               (fechaInicio.isBefore(otroDescuento.fechaFin) && fechaFin.isAfter(otroDescuento.fechaInicio));
+    }
 	
 	//constructors
 	public Descuento() {
@@ -24,40 +41,46 @@ public class Descuento {
 	}
 
 
-	public Descuento(Date fechaInicio, Date fechaFin, Integer porcentajeDescuento) {
+	public Descuento(LocalDate fechaInicio, LocalDate fechaFin, int porcentajeDescuento) {
 		super();
+		 if (fechaInicio == null || fechaFin == null) {
+	            throw new IllegalArgumentException("Las fechas de inicio y fin no pueden ser nulas.");
+	        }
+	        if (fechaInicio.isAfter(fechaFin)) {
+	            throw new IllegalArgumentException("La fecha de inicio no puede ser después de la fecha de fin.");
+	        }
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.porcentajeDescuento = porcentajeDescuento;
 	}
 
 	//getters and setters
-	public Date getFechaInicio() {
+	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}
 
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(LocalDate fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
 
-	public Date getFechaFin() {
+	public LocalDate getFechaFin() {
 		return fechaFin;
 	}
 
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
 
-	public Integer getPorcentajeDescuento() {
+	public int getPorcentajeDescuento() {
 		return porcentajeDescuento;
 	}
 
 
-	public void setPorcentajeDescuento(Integer porcentajeDescuento) {
+	public void setPorcentajeDescuento(int porcentajeDescuento) {
 		this.porcentajeDescuento = porcentajeDescuento;
 	}
 	

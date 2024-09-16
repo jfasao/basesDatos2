@@ -1,7 +1,7 @@
 package ar.unrn.tp.modelo;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
 *
@@ -14,8 +14,8 @@ import java.util.Date;
 
 public class Precio {
 	
-	private Date fechaInicio;
-	private Date fechaFin;
+	private LocalDate fechaInicio;
+	private LocalDate fechaFin;
 	private BigDecimal valor;
 	
 
@@ -25,30 +25,41 @@ public class Precio {
 	}
 
 
-	public Precio(Date fechaInicio, Date fechaFin, BigDecimal valor) {
+	public Precio(LocalDate fechaInicio, LocalDate fechaFin, BigDecimal valor) {
 		super();
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.valor = valor;
 	}
 
+	public boolean precioVigente(Precio precio) {
+		boolean salida=false;
+		
+		if (this.getFechaInicio().isBefore(precio.getFechaInicio()) && this.getFechaFin()==null) {
+			this.setFechaFin(precio.getFechaInicio());
+			salida=true;
+		}
+		return salida;
+	}
+	
+	
 	//getters and setters
-	public Date getFechaInicio() {
+	public LocalDate getFechaInicio() {
 		return fechaInicio;
 	}
 
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(LocalDate fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
 
-	public Date getFechaFin() {
+	public LocalDate getFechaFin() {
 		return fechaFin;
 	}
 
 
-	public void setFechaFin(Date fechaFin) {
+	public void setFechaFin(LocalDate fechaFin) {
 		this.fechaFin = fechaFin;
 	}
 
