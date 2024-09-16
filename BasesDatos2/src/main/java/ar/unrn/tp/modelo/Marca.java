@@ -3,6 +3,13 @@ package ar.unrn.tp.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 /**
 *
 * Materia: Bases de Datos 2
@@ -11,11 +18,17 @@ import java.util.List;
 * @version 1.0
 *
 */
+@Entity
 public class Marca {
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String descripcion;
 	private String nacionalidad;
-	private DescuentoMarca descuento;
+	
+	@OneToMany(mappedBy = "marca", cascade = CascadeType.ALL)
 	private List<DescuentoMarca> Descuentos= new ArrayList<DescuentoMarca>();
 	
 	//constructors
@@ -46,13 +59,7 @@ public class Marca {
 		this.nacionalidad = nacionalidad;
 	}
 
-	protected DescuentoMarca getDescuento() {
-		return descuento;
-	}
-
-	protected void setDescuento(DescuentoMarca descuento) {
-		this.descuento = descuento;
-	}
+	
 
 	protected List<DescuentoMarca> getDescuentos() {
 		return Descuentos;
@@ -60,6 +67,14 @@ public class Marca {
 
 	protected void setDescuentos(List<DescuentoMarca> historialDescuentos) {
 		this.Descuentos = historialDescuentos;
+	}
+
+	protected Long getId() {
+		return id;
+	}
+
+	protected void setId(Long id) {
+		this.id = id;
 	}
 	
 	

@@ -8,6 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
+
 /**
  *  Materia: Bases de Datos 2
  *  
@@ -15,14 +23,21 @@ import java.util.Optional;
  * @version 1.0
  * 
  */
-
+@Entity
 public class Banco  {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private String Nombre;
 	private String Codigo;
 	private String Cuit;
+	@OneToMany(mappedBy = "banco", cascade = CascadeType.ALL)
 	private List<DescuentoBanco> descuentos= new ArrayList<DescuentoBanco>();
+	@OneToMany(mappedBy = "banco",cascade = CascadeType.ALL)
 	private List<TarjetaCredito> tarjetas = new ArrayList<TarjetaCredito>();
+	 @OneToMany
+	 @MapKey(name = "tipoTarjeta")
 	private Map<TipoTarjeta,List<DescuentoBanco>> descuentosPorTipoTarjeta= new HashMap<>();
 	
 	
@@ -157,6 +172,14 @@ public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDe
 
 	public void setDescuentosPorTipoTarjeta(Map<TipoTarjeta, List<DescuentoBanco>> descuentosPorTipoTarjeta) {
 		this.descuentosPorTipoTarjeta = descuentosPorTipoTarjeta;
+	}
+
+	protected Long getId() {
+		return id;
+	}
+
+	protected void setId(Long id) {
+		this.id = id;
 	}
 	
 	

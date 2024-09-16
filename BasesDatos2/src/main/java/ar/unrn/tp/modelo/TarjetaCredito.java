@@ -1,24 +1,48 @@
 package ar.unrn.tp.modelo;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 /**
  * 
  * Materia: Bases de Datos 2
  * 
  * @author Facundo Alcade
- * @version 1.0
+ * @version 1.1
  *
  */
+
+@Entity
 public class TarjetaCredito {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	private String numero;
 	private String titular;
 	private int mesVencimiento;
 	private int anioVencimiento;
 	private int cvc;
+	
+	@ManyToOne
+	@JoinColumn(name = "banco_id")
 	private Banco banco;
+	
+	@ManyToMany
+	@JoinTable(
+		        name = "tarjeta_tipo_tarjeta", // Nombre de la tabla intermedia
+		        joinColumns = @JoinColumn(name = "tarjeta_credito_id"), // Clave foránea hacia TarjetaCredito
+		        inverseJoinColumns = @JoinColumn(name = "tipo_tarjeta_id") // Clave foránea hacia TipoTarjeta
+		    )
 	private TipoTarjeta tipoTarjeta;
 	
 	 public int descuentoVigente(LocalDate fecha) {
@@ -117,6 +141,36 @@ public class TarjetaCredito {
 
 	protected void setTipoTarjeta(TipoTarjeta tipoTarjeta) {
 		this.tipoTarjeta = tipoTarjeta;
+	}
+
+
+
+	protected Long getId() {
+		return id;
+	}
+
+
+
+	protected void setId(Long id) {
+		this.id = id;
+	}
+
+
+
+	protected void setMesVencimiento(int mesVencimiento) {
+		this.mesVencimiento = mesVencimiento;
+	}
+
+
+
+	protected void setAnioVencimiento(int anioVencimiento) {
+		this.anioVencimiento = anioVencimiento;
+	}
+
+
+
+	protected void setCvc(int cvc) {
+		this.cvc = cvc;
 	}
 	
 	

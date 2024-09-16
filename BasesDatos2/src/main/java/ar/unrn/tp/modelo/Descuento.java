@@ -1,7 +1,13 @@
 package ar.unrn.tp.modelo;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDate;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 
 /**
@@ -13,7 +19,13 @@ import java.time.LocalDate;
 *
 */
 
-public class Descuento {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public  class Descuento  {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private LocalDate fechaInicio;
 	private LocalDate fechaFin;
@@ -82,6 +94,14 @@ public class Descuento {
 
 	public void setPorcentajeDescuento(int porcentajeDescuento) {
 		this.porcentajeDescuento = porcentajeDescuento;
+	}
+
+	protected Long getId() {
+		return id;
+	}
+
+	protected void setId(Long id) {
+		this.id = id;
 	}
 	
 	

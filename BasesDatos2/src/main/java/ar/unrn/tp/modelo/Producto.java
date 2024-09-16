@@ -5,6 +5,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToMany;
+
 /**
 *
 * Materia: Bases de Datos 2
@@ -14,15 +25,28 @@ import java.util.List;
 *
 */
 
+@Entity
 public class Producto {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	private String codigo;
 	private String descripcion;
 	
+	@ManyToOne
+	@JoinColumn(name="categoria_id")
 	private Categoria categoria;
+	@ManyToOne
+	@JoinColumn(name="marca_id")
 	private Marca marca;
 	
+	@OneToMany
+	@MapsId
 	private Precio precio;
+	
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private List<Precio> historialPrecios = new ArrayList<Precio>();
 	
 	//cosntructors

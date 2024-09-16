@@ -8,8 +8,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ar.unrn.tp.modelo.Producto;
-import ar.unrn.tp.modelo.Precio;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+
 
 
 /**
@@ -17,13 +25,26 @@ import ar.unrn.tp.modelo.Precio;
 * Materia: Bases de Datos 2
 * 
 * @author Facundo Alcalde
-* @version 1.0
+* @version 1.1
 *
 */
-
+@Entity
 public class Carrito {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name="cliente_id")
 	private Cliente cliente;
+	
+	@ManyToMany
+	@JoinTable(
+	        name = "carrito_producto", // Nombre de la tabla intermedia
+	        joinColumns = @JoinColumn(name = "carrito_id"), // Clave foránea hacia carrito
+	        inverseJoinColumns = @JoinColumn(name = "producto_id") // Clave foránea hacia  producto
+	    )
 	private List<Producto> productos = new ArrayList<Producto>();
 
 	
@@ -46,14 +67,14 @@ public class Carrito {
 	
 	public Venta registrarVenta(TarjetaCredito tarjetaPago) {
 		LocalDate fecha= LocalDate.now();
-		boolean ventaExitosa=false;
+	
 		Venta ventaRegistrar=null;
 		BigDecimal montoAPagar= calcularMontoDescuentoTarjeta(montoTotalConDescuentos(),tarjetaPago.getBanco().descuentoVigente(tarjetaPago.getTipoTarjeta(),fecha));
 		//:TODO validar  y buscar tarjet a
 		
 		if (tarjetaPago.tarjetaValida(LocalDate.now())&&(tarjetaPago.getBanco().saldoTarjeta(tarjetaPago, montoAPagar))) {
 			Venta venta = new Venta(this.cliente, LocalDateTime.now(), productos, tarjetaPago, montoTotalSinDescuentos(), montoAPagar, "compra registrada con exito");
-			ventaExitosa=true;
+			
 		}
 		
 		return ventaRegistrar;
@@ -134,6 +155,14 @@ public class Carrito {
 
 	private void setProductos(List<Producto> productos) {
 		this.productos = productos;
+	}
+
+	protected Long getId() {
+		return id;
+	}
+
+	protected void setId(Long id) {
+		this.id = id;
 	}
 	
 	
