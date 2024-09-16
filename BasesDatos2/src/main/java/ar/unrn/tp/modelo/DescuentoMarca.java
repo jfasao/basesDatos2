@@ -1,7 +1,7 @@
 package ar.unrn.tp.modelo;
 
-import java.util.Date;
-
+import java.math.BigDecimal;
+import java.time.LocalDate;
 /**
 *
 * Materia: Bases de Datos 2
@@ -20,7 +20,7 @@ public class DescuentoMarca extends Descuento {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DescuentoMarca(Date fechaInicio, Date fechaFin, Integer porcentajeDescuento, Marca marca) {
+	public DescuentoMarca(LocalDate fechaInicio, LocalDate fechaFin, int porcentajeDescuento, Marca marca) {
 		super(fechaInicio, fechaFin, porcentajeDescuento);
 		this.marca=marca;
 	}

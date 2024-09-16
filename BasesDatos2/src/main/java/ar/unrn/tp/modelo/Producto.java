@@ -1,5 +1,7 @@
 package ar.unrn.tp.modelo;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +33,15 @@ public class Producto {
 	public Producto(String codigo, String descripcion, Categoria categoria, Marca marca, Precio precio,
 			List<Precio> historialPrecios) {
 		super();
+		if (categoria == null) {
+		        throw new IllegalArgumentException("La categoría no puede ser null.");
+		}
+		if (marca == null) {
+	        throw new IllegalArgumentException("La marca no puede ser null.");
+		}
+		if (precio == null) {
+	        throw new IllegalArgumentException("La precio no puede ser null.");
+		}
 		this.codigo = codigo;
 		this.descripcion = descripcion;
 		this.categoria = categoria;
@@ -38,6 +49,30 @@ public class Producto {
 		this.precio = precio;
 		this.historialPrecios = historialPrecios;
 	}
+	
+	public void cambiarPrecio(Precio precio) {
+		
+		if (this.getPrecio().precioVigente(precio)) {
+			this.getHistorialPrecios().add(precio);
+			this.setPrecio(precio);
+		}
+	}
+	
+	 // Método para calcular el precio con descuento vigente
+    public BigDecimal calcularPrecioConDescuentoPorMarca(LocalDate fecha) {
+        return marca.getDescuentos().stream()
+                         .filter(descuento -> descuento.descuentoVigente(fecha)) // Filtrar descuentos vigentes
+                         .map(descuento -> aplicarDescuento(precio.getValor(), descuento.getPorcentajeDescuento())) // Aplicar descuentos
+                         .findFirst() // Tomar el primer descuento válido
+                         .orElse(precio.getValor()); // Si no hay descuentos vigentes, retorna el precio original
+    }
+
+    // Método auxiliar para aplicar el descuento
+    private BigDecimal aplicarDescuento(BigDecimal precio, int porcentajeDescuento) {
+        BigDecimal descuento = precio.multiply(BigDecimal.valueOf(porcentajeDescuento)).divide(BigDecimal.valueOf(100));
+        return precio.subtract(descuento);
+    }
+
 
 	//getters and setters
 	public String getCodigo() {

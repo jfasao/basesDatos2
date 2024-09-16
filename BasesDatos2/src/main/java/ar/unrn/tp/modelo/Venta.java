@@ -1,6 +1,7 @@
 package ar.unrn.tp.modelo;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +17,14 @@ import java.util.List;
 
 public class Venta {
 
-	private Date fechaHora;
+	private LocalDateTime fechaHora;
+	private Cliente cliente;
 	private List<Producto> productos = new ArrayList<Producto>();
 	private TarjetaCredito tarjetaPago;
-	private BigDecimal monto;
+	private BigDecimal montoTotal;
+	private BigDecimal montoTotalConDescuentos;
+	
+	private String observaciones;
 	
 	
 	//constructors
@@ -28,21 +33,27 @@ public class Venta {
 	}
 
 
-	public Venta(Date fechaHora, List<Producto> productos, TarjetaCredito tarjetaPago, BigDecimal monto) {
+
+
+	public Venta(Cliente cliente,LocalDateTime fechaHora, List<Producto> productos, TarjetaCredito tarjetaPago, BigDecimal montoTotal,
+			BigDecimal montoTotalConDescuentos, String obsrvaciones) {
 		super();
 		this.fechaHora = fechaHora;
 		this.productos = productos;
 		this.tarjetaPago = tarjetaPago;
-		this.monto = monto;
+		this.montoTotal = montoTotal;
+		this.montoTotalConDescuentos = montoTotalConDescuentos;
+		this.observaciones = obsrvaciones;
 	}
 
+
 	//getters and setters
-	public Date getFechaHora() {
+	public LocalDateTime getFechaHora() {
 		return fechaHora;
 	}
 
 
-	public void setFechaHora(Date fechaHora) {
+	public void setFechaHora(LocalDateTime fechaHora) {
 		this.fechaHora = fechaHora;
 	}
 
@@ -67,14 +78,62 @@ public class Venta {
 	}
 
 
-	public BigDecimal getMonto() {
-		return monto;
+
+
+	protected BigDecimal getMontoTotal() {
+		return montoTotal;
 	}
 
 
-	public void setMonto(BigDecimal monto) {
-		this.monto = monto;
+
+
+	protected void setMontoTotal(BigDecimal montoTotal) {
+		this.montoTotal = montoTotal;
 	}
+
+
+
+
+	protected BigDecimal getMontoTotalConDescuentos() {
+		return montoTotalConDescuentos;
+	}
+
+
+
+
+	protected void setMontoTotalConDescuentos(BigDecimal montoTotalConDescuentos) {
+		this.montoTotalConDescuentos = montoTotalConDescuentos;
+	}
+
+
+
+
+	protected String getObservaciones() {
+		return observaciones;
+	}
+
+
+
+
+	protected void setObservaciones(String obsrvaciones) {
+		this.observaciones = obsrvaciones;
+	}
+
+
+
+
+	protected Cliente getCliente() {
+		return cliente;
+	}
+
+
+
+
+	protected void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+
 	
 	
 	

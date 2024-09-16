@@ -1,5 +1,8 @@
 package ar.unrn.tp.modelo;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 /**
  * 
  * Materia: Bases de Datos 2
@@ -12,20 +15,37 @@ public class TarjetaCredito {
 
 	private String numero;
 	private String titular;
-	private Integer mesVencimiento;
-	private Integer anioVencimiento;
-	private Integer cvc;
+	private int mesVencimiento;
+	private int anioVencimiento;
+	private int cvc;
 	private Banco banco;
+	private TipoTarjeta tipoTarjeta;
+	
+	 public int descuentoVigente(LocalDate fecha) {
+		 return  banco.getDescuentos().stream()
+	                         .filter(descuento -> descuento.descuentoVigente(fecha)) // Filtrar descuentos vigentes
+                             .map(Descuento::getPorcentajeDescuento) // Obtener el porcentaje de descuento
+                             .findFirst()// Tomar el primer descuento válido
+	        				.orElse(0); 
+		 
+	    }
+
 	
 	
-	
+	 public boolean tarjetaValida(LocalDate fecha) {
+		 
+		 return mesVencimiento >=fecha.getMonthValue() && anioVencimiento>=fecha.getYear();
+		 
+	 }
 	//constructors
 	public TarjetaCredito() {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 	public TarjetaCredito(String numero, String titular, Integer mesVencimiento, Integer anioVencimiento, Integer cvc,
-			Banco banco) {
+			Banco banco, TipoTarjeta tipoTarjeta) {
 		super();
 		this.numero = numero;
 		this.titular = titular;
@@ -33,7 +53,10 @@ public class TarjetaCredito {
 		this.anioVencimiento = anioVencimiento;
 		this.cvc = cvc;
 		this.banco = banco;
+		this.tipoTarjeta = tipoTarjeta;
 	}
+
+
 
 	//getters and setters
 	public String getNumero() {
@@ -82,6 +105,18 @@ public class TarjetaCredito {
 
 	public void setBanco(Banco banco) {
 		this.banco = banco;
+	}
+
+
+
+	protected TipoTarjeta getTipoTarjeta() {
+		return tipoTarjeta;
+	}
+
+
+
+	protected void setTipoTarjeta(TipoTarjeta tipoTarjeta) {
+		this.tipoTarjeta = tipoTarjeta;
 	}
 	
 	

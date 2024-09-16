@@ -1,6 +1,8 @@
 package ar.unrn.tp.modelo;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 
 /**
 *
@@ -20,7 +22,7 @@ public class DescuentoBanco extends Descuento {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DescuentoBanco(Date fechaInicio, Date fechaFin, Integer porcentajeDescuento,Banco banco) {
+	public DescuentoBanco(LocalDate fechaInicio, LocalDate fechaFin, int porcentajeDescuento,Banco banco) {
 		super(fechaInicio, fechaFin, porcentajeDescuento);
 		this.banco = banco;
 	}
