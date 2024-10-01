@@ -3,7 +3,9 @@ package ar.unrn.tp.modelo;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -54,8 +56,7 @@ public class Producto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Producto(String codigo, String descripcion, Categoria categoria, Marca marca, Precio precio,
-			List<Precio> historialPrecios) {
+	public Producto(String codigo, String descripcion, Categoria categoria, Marca marca, Precio precio) {
 		super();
 		if (categoria == null) {
 		        throw new IllegalArgumentException("La categoría no puede ser null.");
@@ -66,12 +67,46 @@ public class Producto {
 		if (precio == null) {
 	        throw new IllegalArgumentException("La precio no puede ser null.");
 		}
+		if (codigo == null || codigo.trim().isEmpty()) {
+	        throw new IllegalArgumentException("El Codigo no puede ser nula o vacía.");
+		}
+		if (descripcion == null || descripcion.trim().isEmpty()) {
+	        throw new IllegalArgumentException("La descripcion no puede ser nula o vacía.");
+		}
 		this.codigo = codigo;
 		this.descripcion = descripcion;
 		this.categoria = categoria;
 		this.marca = marca;
 		this.precio = precio;
-		this.historialPrecios = historialPrecios;
+		this.historialPrecios.add(precio);
+		
+	}
+	
+	public Producto(String codigo, String descripcion, Categoria categoria, Marca marca, Precio precio, List<Precio> precios) {
+		super();
+		if (categoria == null) {
+		        throw new IllegalArgumentException("La categoría no puede ser null.");
+		}
+		if (marca == null) {
+	        throw new IllegalArgumentException("La marca no puede ser null.");
+		}
+		if (precio == null) {
+	        throw new IllegalArgumentException("La precio no puede ser null.");
+		}
+		if (codigo == null || codigo.trim().isEmpty()) {
+	        throw new IllegalArgumentException("El Codigo no puede ser nula o vacía.");
+		}
+		if (descripcion == null || descripcion.trim().isEmpty()) {
+	        throw new IllegalArgumentException("La descripcion no puede ser nula o vacía.");
+		}
+		this.codigo = codigo;
+		this.descripcion = descripcion;
+		this.categoria = categoria;
+		this.marca = marca;
+		this.precio = precio;
+		this.historialPrecios.addAll(precios);
+		
+		
 	}
 	
 	public void cambiarPrecio(Precio precio) {
@@ -147,6 +182,43 @@ public class Producto {
 		this.historialPrecios = historialPrecios;
 	}
 
-	
-	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    Producto producto = (Producto) o;
+
+	    if (!id.equals(producto.id)) return false;
+	    if (!codigo.equals(producto.codigo)) return false;
+	    if (!descripcion.equals(producto.descripcion)) return false;
+	    if (!categoria.equals(producto.categoria)) return false;
+	    return marca.equals(producto.marca);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + codigo.hashCode();
+	    result = 31 * result + descripcion.hashCode();
+	    result = 31 * result + categoria.hashCode();
+	    result = 31 * result + marca.hashCode();
+	    return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", codigo=" + codigo + ", descripcion=" + descripcion + ", categoria=" + categoria
+				+ ", marca=" + marca + ", precio=" + precio + "]";
+	}
+
+	 // Método para convertir a Map
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("codigo", codigo);
+        map.put("descripcion", descripcion);
+        map.put("precio", precio);
+        return map;
+    }
 }

@@ -2,6 +2,7 @@ package ar.unrn.tp.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -76,6 +77,26 @@ public class Marca {
 	protected void setId(Long id) {
 		this.id = id;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(descripcion, id, nacionalidad);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Marca other = (Marca) obj;
+		return Objects.equals(descripcion, other.descripcion) && Objects.equals(id, other.id)
+				&& Objects.equals(nacionalidad, other.nacionalidad);
+	}
+
+	
 	
 	
 	

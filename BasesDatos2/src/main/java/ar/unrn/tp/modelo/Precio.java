@@ -2,6 +2,7 @@ package ar.unrn.tp.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -90,6 +91,26 @@ public class Precio {
 
 	protected void setId(Long id) {
 		this.id = id;
+	}
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(fechaFin, fechaInicio, id, valor);
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Precio other = (Precio) obj;
+		return Objects.equals(fechaFin, other.fechaFin) && Objects.equals(fechaInicio, other.fechaInicio)
+				&& Objects.equals(id, other.id) && Objects.equals(valor, other.valor);
 	}
 	
 	

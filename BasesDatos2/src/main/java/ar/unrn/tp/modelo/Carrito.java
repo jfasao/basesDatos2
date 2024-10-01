@@ -91,7 +91,7 @@ public class Carrito {
 	}
 	*/
 	
-	public Map<TarjetaCredito,BigDecimal> descuentosPorTarjeta() {
+	protected Map<TarjetaCredito,BigDecimal> descuentosPorTarjeta() {
 		 LocalDate fecha = LocalDate.now();
 		 BigDecimal precio=montoTotalConDescuentos();
 		 Map<TarjetaCredito,BigDecimal> salida=new HashMap<TarjetaCredito,BigDecimal>();
@@ -103,7 +103,7 @@ public class Carrito {
 		 return salida;
 		
 	}
-	
+	/*
 	public boolean agregarProducto(Producto producto) {
 		boolean salida = true;
 		if (!productos.contains(producto)) {
@@ -124,12 +124,33 @@ public class Carrito {
 			salida=false;
 		}
 		return salida;
+	}*/
+	
+	public void agregarProducto(Producto producto) {
+		
+		if (!productos.contains(producto)) {
+			productos.add(producto);
+		}
+	}
+	
+	public void quitarProducto(Producto producto) {
+		
+		if (productos.contains(producto)) {
+			productos.add(producto);
+		}
 	}
 	
 	
-	public BigDecimal calcularMontoDescuentoTarjeta(BigDecimal precio, int porcentajeDescuento) {
+	protected BigDecimal calcularMontoDescuentoTarjeta(BigDecimal precio, int porcentajeDescuento) {
 		return precio.multiply(BigDecimal.valueOf((100-porcentajeDescuento)/100));
 	}
+	
+	public BigDecimal calcularMontoDescuentoTarjeta( TarjetaCredito tarjeta, LocalDate fecha ) {
+		int porcentajeDescuento =tarjeta.getBanco().descuentoVigente(tarjeta.getTipoTarjeta(),fecha);
+		BigDecimal precio= this.montoTotalConDescuentos();
+		return precio.multiply(BigDecimal.valueOf((100-porcentajeDescuento)/100));
+	}
+	
 	//constructors
 		public Carrito() {
 			// TODO Auto-generated constructor stub
@@ -140,6 +161,13 @@ public class Carrito {
 			this.cliente = cliente;
 			this.productos = productos;
 		}
+		
+		
+	public Carrito(Cliente cliente) {
+			super();
+			this.cliente = cliente;
+		}
+
 	//getters and setters
 	public Cliente getCliente() {
 		return cliente;
@@ -149,7 +177,7 @@ public class Carrito {
 		this.cliente = cliente;
 	}
 
-	private List<Producto> getProductos() {
+	public List<Producto> getProductos() {
 		return productos;
 	}
 
@@ -157,7 +185,7 @@ public class Carrito {
 		this.productos = productos;
 	}
 
-	protected Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -165,8 +193,25 @@ public class Carrito {
 		this.id = id;
 	}
 	
-	
-	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    Carrito carrito = (Carrito) o;
+
+	    if (!id.equals(carrito.id)) return false;
+	    if (!cliente.equals(carrito.cliente)) return false;
+	    return productos.equals(carrito.productos);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + cliente.hashCode();
+	    result = 31 * result + productos.hashCode();
+	    return result;
+	}
 	
 	
 

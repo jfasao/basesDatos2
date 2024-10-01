@@ -25,11 +25,11 @@ public  class Descuento  {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	protected Long id;
 	
-	private LocalDate fechaInicio;
-	private LocalDate fechaFin;
-	private int porcentajeDescuento;
+	protected LocalDate fechaInicio;
+	protected LocalDate fechaFin;
+	protected int porcentajeDescuento;
 	
 	
 	// verificar si el descuento es vigente

@@ -29,9 +29,9 @@ public class Banco  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String Nombre;
-	private String Codigo;
-	private String Cuit;
+	private String nombre;
+	private String codigo;
+	private String cuit;
 	@OneToMany(mappedBy = "banco", cascade = CascadeType.ALL)
 	private List<DescuentoBanco> descuentos= new ArrayList<DescuentoBanco>();
 	@OneToMany(mappedBy = "banco",cascade = CascadeType.ALL)
@@ -56,19 +56,26 @@ public int descuentoVigente(TipoTarjeta tipoTarjeta, LocalDate fecha) {
 
 //Inserta un descuento en la lista de descuentos del tipo de tarjeta, si no esta solapado o la lista es vacia
 public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDescuento) {
-    // Obtener la lista de descuentos para el tipo de tarjeta
-    List<DescuentoBanco> descuentosExistentes = descuentosPorTipoTarjeta.getOrDefault(tipoTarjeta, new ArrayList<>());
+	// Obtener la lista de descuentos para el tipo de tarjeta
+	List<DescuentoBanco> descuentosExistentes = descuentosPorTipoTarjeta.getOrDefault(tipoTarjeta, new ArrayList<>());
 
-    // Verificar si el nuevo descuento solapa con algún descuento existente
-    boolean solapado = descuentosExistentes.stream()
-        .anyMatch(descuentoExistente -> descuentoExistente.descuentoSolapado(nuevoDescuento));
+	// Verificar si la lista de descuentos existentes es nula o está vacía
+	boolean solapado = false;
 
-    // Si no está solapado, agregarlo a la lista
-    if (!solapado) {
-        descuentosExistentes.add(nuevoDescuento);
-        descuentosPorTipoTarjeta.put(tipoTarjeta, descuentosExistentes);
-    }
-    return !solapado;
+	if (descuentosExistentes != null && !descuentosExistentes.isEmpty()) {
+	    // Verificar si el nuevo descuento solapa con algún descuento existente
+	    solapado = descuentosExistentes.stream()
+	        .anyMatch(descuentoExistente -> descuentoExistente.descuentoSolapado(nuevoDescuento));
+	}
+
+	// Si no está solapado, agregarlo a la lista
+	if (!solapado) {
+	    descuentosExistentes.add(nuevoDescuento);
+	    descuentosPorTipoTarjeta.put(tipoTarjeta, descuentosExistentes);
+	}
+
+	return !solapado;
+
     }
 
 	public boolean saldoTarjeta(TarjetaCredito tarjeta, BigDecimal montoPagar) {
@@ -91,9 +98,9 @@ public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDe
 	
 	public Banco(String nombre, String codigo, String cuit) {
 		super();
-		Nombre=nombre;
-		Codigo=codigo;
-		Cuit=cuit;
+		this.nombre=nombre;
+		this.codigo=codigo;
+		this.cuit=cuit;
 		
 		
 	}
@@ -103,9 +110,9 @@ public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDe
 	public Banco(String nombre, String codigo, String cuit, List<DescuentoBanco> descuentos,
 			List<TarjetaCredito> tarjetas, Map<TipoTarjeta, List<DescuentoBanco>> descuentosPorTipoTarjeta) {
 		super();
-		Nombre = nombre;
-		Codigo = codigo;
-		Cuit = cuit;
+		this.nombre = nombre;
+		this.codigo = codigo;
+		this.cuit = cuit;
 		this.descuentos = descuentos;
 		this.tarjetas = tarjetas;
 		this.descuentosPorTipoTarjeta = descuentosPorTipoTarjeta;
@@ -114,38 +121,38 @@ public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDe
 
 	public Banco(String nombre, String codigo, String cuit, List<DescuentoBanco> descuento) {
 		super();
-		Nombre = nombre;
-		Codigo = codigo;
-		Cuit = cuit;
+		nombre = nombre;
+		codigo = codigo;
+		cuit = cuit;
 		this.descuentos = descuento;
 	}
 
 
 	// getters and setters
 	protected String getNombre() {
-		return Nombre;
+		return nombre;
 	}
 	
 	protected void setNombre(String nombre) {
-		Nombre = nombre;
+		nombre = nombre;
 	}
 	protected String getCodigo() {
-		return Codigo;
+		return codigo;
 	}
 	protected void setCodigo(String codigo) {
-		Codigo = codigo;
+		codigo = codigo;
 	}
 	protected String getCuit() {
-		return Cuit;
+		return cuit;
 	}
 	protected void setCuit(String cuit) {
-		Cuit = cuit;
+		cuit = cuit;
 	}
 
 
 	
 
-	protected List<TarjetaCredito> getTarjetas() {
+	public List<TarjetaCredito> getTarjetas() {
 		return tarjetas;
 	}
 
@@ -155,7 +162,7 @@ public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDe
 	}
 
 
-	protected List<DescuentoBanco> getDescuentos() {
+	public List<DescuentoBanco> getDescuentos() {
 		return descuentos;
 	}
 
@@ -174,7 +181,7 @@ public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDe
 		this.descuentosPorTipoTarjeta = descuentosPorTipoTarjeta;
 	}
 
-	protected Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -182,6 +189,34 @@ public boolean insertarDescuento(TipoTarjeta tipoTarjeta, DescuentoBanco nuevoDe
 		this.id = id;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    Banco banco = (Banco) o;
+
+	    if (!id.equals(banco.id)) return false;
+	    if (!codigo.equals(banco.codigo)) return false;
+	    return cuit.equals(banco.cuit);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + codigo.hashCode();
+	    result = 31 * result + cuit.hashCode();
+	    return result;
+	}
 	
+	  // Método para convertir a Map
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("nombre", nombre);
+        map.put("codigo", codigo);
+        map.put("cuit", cuit);
+        return map;
+    }
 
 }

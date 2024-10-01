@@ -53,7 +53,7 @@ public class Cliente {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cliente(String nombre, String apellido, String email, String dni, List<TarjetaCredito> tarjetasCredito) {
+	public Cliente(String nombre, String apellido, String email, String dni) {
 		super();
 		 if (nombre == null || nombre.trim().isEmpty()) {
 		        throw new IllegalArgumentException("El nombre no puede ser nulo o vacío.");
@@ -71,63 +71,118 @@ public class Cliente {
 		this.apellido = apellido;
 		this.email = email;
 		this.dni = dni;
-		this.tarjetasCredito = tarjetasCredito;
+		
 	}
 
 	
+	public Cliente(String nombre, String apellido, String email, String dni, List<TarjetaCredito> tarjetas) {
+		super();
+		 if (nombre == null || nombre.trim().isEmpty()) {
+		        throw new IllegalArgumentException("El nombre no puede ser nulo o vacío.");
+		    }
+		    if (apellido == null || apellido.trim().isEmpty()) {
+		        throw new IllegalArgumentException("El apellido no puede ser nulo o vacío.");
+		    }
+		    if (dni == null || dni.trim().isEmpty()) {
+		        throw new IllegalArgumentException("El DNI no puede ser nulo o vacío.");
+		    }
+		    if (email == null || !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+		        throw new IllegalArgumentException("El email es inválido.");
+		    }
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.dni = dni;
+		this.tarjetasCredito = tarjetas;
+	}
 	
+	public void agregarTarjeta(TarjetaCredito tarjeta) {
+		
+		this.getTarjetasCredito().add(tarjeta);
+	}
+	
+	public boolean perteneceTarjeta(TarjetaCredito tarjeta) {
+		
+		return this.getTarjetasCredito()
+         .stream()
+         .anyMatch(t -> t.equals(tarjeta));
+		
+	}
 	
 	//getters and setters
 	private String getNombre() {
 		return nombre;
 	}
 
-	private void setNombre(String nombre) {
+	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
 
-	private String getApellido() {
+	public String getApellido() {
 		return apellido;
 	}
 
-	private void setApellido(String apellido) {
+	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
 
-	private String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
-	private void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	private String getDni() {
+	public String getDni() {
 		return dni;
 	}
 
-	private void setDni(String dni) {
+	public void setDni(String dni) {
 		this.dni = dni;
 	}
 
-	protected List<TarjetaCredito> getTarjetasCredito() {
+	public List<TarjetaCredito> getTarjetasCredito() {
 		return tarjetasCredito;
 	}
 
-	protected void setTarjetasCredito(List<TarjetaCredito> tarjetasCredito) {
+	public void setTarjetasCredito(List<TarjetaCredito> tarjetasCredito) {
 		this.tarjetasCredito = tarjetasCredito;
 	}
 
-	protected Long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	protected void setId(Long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	
-	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    Cliente cliente = (Cliente) o;
+
+	    if (!id.equals(cliente.id)) return false;
+	    if (!dni.equals(cliente.dni)) return false;
+	    if (!nombre.equals(cliente.nombre)) return false;
+	    if (!apellido.equals(cliente.apellido)) return false;
+	    return email.equals(cliente.email);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + dni.hashCode();
+	    result = 31 * result + nombre.hashCode();
+	    result = 31 * result + apellido.hashCode();
+	    result = 31 * result + email.hashCode();
+	    return result;
+	}
+
 	
 	
 }

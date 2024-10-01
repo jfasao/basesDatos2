@@ -31,7 +31,11 @@ public class Categoria {
 
 	
 	public Categoria(String descripcion) {
+		
 		super();
+		 if (descripcion == null || descripcion.trim().isEmpty()) {
+		        throw new IllegalArgumentException("La descripcion no puede ser nula o vacía.");
+		 }
 		this.descripcion = descripcion;
 	}
 
@@ -46,7 +50,7 @@ public class Categoria {
 		}
 
 
-	protected Long getId() {
+	public Long getId() {
 		return id;
 	}
 

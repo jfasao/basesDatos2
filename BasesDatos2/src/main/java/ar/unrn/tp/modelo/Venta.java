@@ -161,7 +161,36 @@ public class Venta {
 
 
 	
-	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    Venta venta = (Venta) o;
+
+	    if (!id.equals(venta.id)) return false;
+	    if (!fechaHora.equals(venta.fechaHora)) return false;
+	    if (!cliente.equals(venta.cliente)) return false;
+	    if (!productos.equals(venta.productos)) return false;
+	    if (!tarjetaPago.equals(venta.tarjetaPago)) return false;
+	    if (!montoTotal.equals(venta.montoTotal)) return false;
+	    if (!montoTotalConDescuentos.equals(venta.montoTotalConDescuentos)) return false;
+	    return observaciones.equals(venta.observaciones);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + fechaHora.hashCode();
+	    result = 31 * result + cliente.hashCode();
+	    result = 31 * result + productos.hashCode();
+	    result = 31 * result + tarjetaPago.hashCode();
+	    result = 31 * result + montoTotal.hashCode();
+	    result = 31 * result + montoTotalConDescuentos.hashCode();
+	    result = 31 * result + observaciones.hashCode();
+	    return result;
+	}
+
 	
 	
 

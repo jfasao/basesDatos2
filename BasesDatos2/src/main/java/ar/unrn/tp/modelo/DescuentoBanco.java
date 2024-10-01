@@ -46,7 +46,30 @@ public class DescuentoBanco extends Descuento {
 	
 	
 	
-	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    DescuentoBanco that = (DescuentoBanco) o;
+
+	    if (porcentajeDescuento != that.porcentajeDescuento) return false;
+	    if (!id.equals(that.id)) return false;
+	    if (!fechaInicio.equals(that.fechaInicio)) return false;
+	    if (!fechaFin.equals(that.fechaFin)) return false;
+	    return banco.equals(that.banco);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + fechaInicio.hashCode();
+	    result = 31 * result + fechaFin.hashCode();
+	    result = 31 * result + porcentajeDescuento;
+	    result = 31 * result + banco.hashCode();
+	    return result;
+	}
+
 	
 	
 

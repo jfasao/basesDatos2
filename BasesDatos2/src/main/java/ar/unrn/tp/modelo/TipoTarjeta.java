@@ -1,7 +1,9 @@
 package ar.unrn.tp.modelo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,6 +36,11 @@ public class TipoTarjeta {
 		this.descripcion = descripcion;
 	}
 
+	public TipoTarjeta(Long id,String descripcion) {
+		super();
+		this.id=id;
+		this.descripcion = descripcion;
+	}
 
 
 	public String getDescripcion() {
@@ -64,5 +71,30 @@ public class TipoTarjeta {
 		this.id = id;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    TipoTarjeta that = (TipoTarjeta) o;
+
+	    if (!id.equals(that.id)) return false;
+	    return descripcion.equals(that.descripcion);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + descripcion.hashCode();
+	    return result;
+	}
+	
+	  // Método para convertir a Map
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("descripcion", descripcion);
+        return map;
+    }
 	
 }

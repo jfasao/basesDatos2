@@ -39,4 +39,27 @@ public class DescuentoMarca extends Descuento {
 	}
 
 	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
+
+	    DescuentoMarca that = (DescuentoMarca) o;
+
+	    if (porcentajeDescuento != that.porcentajeDescuento) return false;
+	    if (!id.equals(that.id)) return false;
+	    if (!fechaInicio.equals(that.fechaInicio)) return false;
+	    if (!fechaFin.equals(that.fechaFin)) return false;
+	    return marca.equals(that.marca);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = id.hashCode();
+	    result = 31 * result + fechaInicio.hashCode();
+	    result = 31 * result + fechaFin.hashCode();
+	    result = 31 * result + porcentajeDescuento;
+	    result = 31 * result + marca.hashCode();
+	    return result;
+	}
 }

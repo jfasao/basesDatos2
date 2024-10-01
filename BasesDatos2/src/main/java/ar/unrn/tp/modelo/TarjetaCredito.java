@@ -2,6 +2,10 @@ package ar.unrn.tp.modelo;
 
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -174,6 +178,45 @@ public class TarjetaCredito {
 	}
 	
 	
-	
+	@Override
+	public boolean equals(Object o) {
+	    if (this == o) return true;
+	    if (o == null || getClass() != o.getClass()) return false;
 
+	    TarjetaCredito that = (TarjetaCredito) o;
+
+	    if (mesVencimiento != that.mesVencimiento) return false;
+	    if (anioVencimiento != that.anioVencimiento) return false;
+	    if (cvc != that.cvc) return false;
+	    if (!numero.equals(that.numero)) return false;
+	    if (!titular.equals(that.titular)) return false;
+	    if (!banco.equals(that.banco)) return false;
+	    return tipoTarjeta.equals(that.tipoTarjeta);
+	}
+
+	@Override
+	public int hashCode() {
+	    int result = numero.hashCode();
+	    result = 31 * result + titular.hashCode();
+	    result = 31 * result + mesVencimiento;
+	    result = 31 * result + anioVencimiento;
+	    result = 31 * result + cvc;
+	    result = 31 * result + banco.hashCode();
+	    result = 31 * result + tipoTarjeta.hashCode();
+	    return result;
+	}
+	
+	// Método para convertir a Map
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("numero", numero);
+        map.put("titular", titular);
+        map.put("mesVencimiento", mesVencimiento);
+        map.put("anioVencimiento", anioVencimiento);
+        map.put("cvc", cvc);
+        map.put("banco", banco != null ? banco.toMap() : null); // Convertir a Map si no es nulo
+        map.put("tipoTarjeta", tipoTarjeta != null ? tipoTarjeta.toMap() : null);
+        return map;
+    }
 }
